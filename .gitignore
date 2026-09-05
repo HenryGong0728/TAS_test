@@ -22,6 +22,7 @@ dist-ssr/
 .npm
 *.tsbuildinfo
 .eslintcache
+.playwright-cli/
 
 # ===== 本地环境变量与敏感配置 =====
 # 忽略所有的 .env 文件及衍生配置

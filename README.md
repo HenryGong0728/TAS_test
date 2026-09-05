@@ -1,15 +1,8 @@
-# 人才项目测试仓库（Assessment Lab）
+# TAS Test
 
-本仓库是实验室招新阶段考核的专用练习仓库，技术栈与正式项目（人才盘点系统）保持一致，用于考察：
+TAS Test 是人才盘点系统的简化测试项目，用于验证前端页面、后端接口、环境配置和基础联调流程。
 
-- Git 仓库协作能力（Fork、个人分支、提交、PR、分支同步）
-- 项目环境配置能力（`.env` 环境变量）
-- 前后端项目运行与联调能力
-- 基础问题排查能力
-
-> **说明**：本考核版本**不接入数据库（SQL）**，后端使用内存存储，无需安装 MySQL。
-
----
+当前版本不接入数据库，后端使用内存保存测试数据，服务重启后数据会清空。
 
 ## 技术栈
 
@@ -19,9 +12,9 @@
 |---|---|
 | 核心框架 | Spring Boot 3.5.4 |
 | 编程语言 | Java 17 |
-| 构建工具 | Maven |
+| 构建工具 | Maven / Maven Wrapper |
 | Web 组件 | Spring Web |
-| 数据存储 | 内存（考核版不接入 MySQL / MyBatis） |
+| 数据存储 | 内存存储 |
 
 ### 前端
 
@@ -35,67 +28,65 @@
 | HTTP 客户端 | Axios |
 | 包管理器 | npm |
 
----
-
-## 项目目录
+## 项目结构
 
 ```text
-assessment-lab/
-├── backend/          # 后端服务（Spring Boot，健康检查接口，无数据库）
-├── frontend/         # 前端 / 考生端（Vue 3，后端连接状态页）
-├── doc/              # Git 协作考核文件夹（考核时在此新建文件）
-├── .env.example      # 环境变量模板说明入口
+TAS_test/
+├── backend/          # 后端服务
+├── frontend/         # 前端页面
+├── doc/              # 项目文档和测试记录
+├── .env.example      # 根目录环境说明
 ├── .gitignore        # Git 忽略规则
-└── README.md         # 项目入口说明（本文件）
+└── README.md         # 项目说明
 ```
 
----
+## 环境要求
 
-## 启动步骤
+- Git
+- Java 17
+- Node.js
+- npm
 
-### 1. 环境配置
+后端基于 Spring Boot 3.x，需要使用 Java 17。若使用 Java 8，会出现编译失败。
 
-将各模块的 `.env.example` 复制生成 `.env` 文件，并按考核要求填写：
+## 环境配置
 
-| 模块 | 目录 | 考核环境 | 说明 |
+项目按模块维护环境变量模板：
+
+| 模块 | 模板文件 | 本地配置文件 | 说明 |
 |---|---|---|---|
-| 前端（考生端） | `frontend/` | **remote** | `VITE_API_BASE_URL` 填写考官提供的**云端后端地址** |
-| 后端 | `backend/` | **local** | 本地启动，默认端口 8080，无需数据库配置 |
+| 后端 | `backend/.env.example` | `backend/.env` | 配置 `SERVER_PORT` |
+| 前端 | `frontend/.env.example` | `frontend/.env` | 配置 `VITE_API_BASE_URL` |
 
-PowerShell 复制示例：
+本地运行时，将对应目录下的 `.env.example` 复制为 `.env` 后再修改。
 
-```powershell
-copy frontend\.env.example frontend\.env
-copy backend\.env.example backend\.env
-```
+前端的 `VITE_API_BASE_URL` 用于配置后端接口地址。本机联调时可配置为本地后端地址；连接远程后端时配置为远程后端地址。
 
-配置要点：
+后端默认端口为 8080，可通过 `SERVER_PORT` 调整。
 
-- **前端 `.env`**：将 `VITE_API_BASE_URL` 改为考官现场提供的云端后端地址；若需在本机联调本地后端，改为 `http://localhost:8080`。
-- **后端 `.env`**：保持默认即可（`SERVER_PORT=8080`）。使用 IDEA 启动时，也可在运行配置的 Environment variables 中注入。
-- 修改 `.env` 后需要重新执行 `npm run dev` 才会生效。
+## 后端启动
 
-### 2. 选择启动方式
+进入 `backend` 目录。
 
-#### 方式一：命令行启动
+如果本机已安装 Maven，可以使用 Maven 启动。
 
-**后端**（需本机已安装 JDK 17）：
-
-已安装 Maven 时：
-
-```powershell
-cd backend
+```bash
 mvn spring-boot:run
 ```
 
-未安装 Maven 时，可直接使用项目自带的 Maven Wrapper（首次运行会自动下载 Maven）：
+如果本机没有安装 Maven，可以使用项目自带的 Maven Wrapper 启动。
+
+```bash
+./mvnw spring-boot:run
+```
+
+Windows PowerShell 可使用：
 
 ```powershell
-cd backend
 .\mvnw.cmd spring-boot:run
 ```
 
-后端默认地址：
+后端默认访问地址：
 
 ```text
 http://localhost:8080
@@ -104,71 +95,72 @@ http://localhost:8080
 健康检查接口：
 
 ```text
-http://localhost:8080/api/health
+GET http://localhost:8080/api/health
 ```
 
-**前端（考生端）**：
+人员信息测试接口：
 
-```powershell
-cd frontend
+```text
+POST http://localhost:8080/api/applications
+GET  http://localhost:8080/api/applications
+```
+
+## 前端启动
+
+进入 `frontend` 目录。
+
+首次运行需要安装前端依赖，然后启动 Vite 开发服务。
+
+```bash
 npm install
 npm run dev
 ```
 
-前端默认地址：
+前端默认访问地址：
 
 ```text
 http://localhost:5173
 ```
 
-#### 方式二：IDE 启动（IDEA / VS Code）
+## 功能说明
 
-**后端**：使用 IDEA 打开 `backend` 目录，等待 Maven 依赖加载完成，确认 JDK 为 17，运行后端启动类：
+当前前端提供一个基础运行检查页面，包含：
 
-```text
-backend/src/main/java/com/zcst/assessment_backend/AssessmentBackendApplication.java
-```
+- 后端连接状态检测
+- 人员编号、姓名、岗位方向填写
+- 表单提交测试
+- 最近提交结果展示
 
-**前端**：使用 VS Code 或 IDEA 打开 `frontend` 目录，在内置终端执行 `npm install` 安装依赖，再执行 `npm run dev` 启动（也可使用 IDE 内置的 npm 脚本面板）。
+当前后端提供：
 
-### 3. 启动验证
+- 健康检查接口
+- 人员信息提交接口
+- 人员信息列表接口
 
-1. 浏览器打开考生端 `http://localhost:5173`，页面中间显示「后端连接成功」即表示前端与后端联通正常；显示「后端未连接」时按常见问题排查。
-2. 浏览器访问 `http://localhost:8080/api/health`，返回 `{"status":"UP"}` 即表示后端运行正常。
+提交的数据仅保存在内存中，不会写入数据库。
 
----
+## 运行验证
 
-## Git 协作考核说明
-
-- Fork 本仓库到自己的账号，在 **个人分支**（建议以姓名/昵称命名）上完成操作，**禁止直接在主分支开发**。
-- 云端修改：在仓库主分支的 `doc/` 文件夹中新建文件，保存并提交。
-- 本地修改：在本地项目的 `doc/` 文件夹中新建文件，填写任意可追踪内容，提交并推送到远程个人分支。
-- Commit Message 需清晰描述修改内容，例如：
-
-```text
-docs: 新增个人考核测试文件
-```
-
-- 完成后发起 Pull Request（PR），并将主分支的最新修改同步到个人分支。
-
----
+1. 启动后端服务。
+2. 配置前端 `.env` 中的 `VITE_API_BASE_URL`。
+3. 启动前端服务。
+4. 打开前端页面，确认显示“后端连接成功”。
+5. 填写人员编号、姓名和岗位方向并提交，页面显示“提交成功”即表示前后端联调正常。
 
 ## 常见问题
 
-### 后端 Maven 导入报错
+### 后端启动失败
 
-确认 IDEA 使用的 JDK 为 Java 17，并在 Maven 面板中重新加载（Reload）依赖。
+优先检查 Java 版本是否为 Java 17。
 
-### 前端依赖安装失败
+### Maven 不可用
 
-先确认 Node.js 版本符合 `package.json` 中 `engines` 的要求（Node `^22.18.0` 或 `>=24.12.0`），再重新执行 `npm install`。
+可以使用 `backend` 目录下的 Maven Wrapper。
 
-### 考生端显示「后端未连接」
+### 前端页面显示后端未连接
 
-1. 确认后端已启动（访问 `http://localhost:8080/api/health`）。
-2. 检查 `frontend/.env` 中的 `VITE_API_BASE_URL` 是否正确。
-3. 修改 `.env` 后需重启 `npm run dev`。
+检查后端是否已启动，并确认 `frontend/.env` 中的 `VITE_API_BASE_URL` 是否正确。修改 `.env` 后需要重新启动前端服务。
 
-### 需要安装 MySQL 吗？
+### 是否需要安装数据库
 
-不需要。考核版本后端使用内存存储，不接入数据库。
+当前版本不需要安装数据库。

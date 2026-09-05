@@ -31,7 +31,7 @@
         </dependency>
 
         <!--
-          考核版本说明：
+          当前简化版本说明：
           本项目不接入数据库，因此未引入 MyBatis / MySQL 驱动，
           数据使用内存存储（ConcurrentHashMap），重启服务后数据清空。
         -->
