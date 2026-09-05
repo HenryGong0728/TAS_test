@@ -9,7 +9,7 @@ import java.util.Map;
 
 /**
  * 健康检查接口。
- * 前端考生端通过 GET /api/health 检测后端连接状态。
+ * 前端测试页通过 GET /api/health 检测后端连接状态。
  */
 @RestController
 @RequestMapping("/api")

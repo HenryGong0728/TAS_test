@@ -6,4 +6,4 @@ spring:
   application:
     name: assessment-backend
 
-# 考核版本不接入数据库，因此无 datasource / mybatis 相关配置。
+# 当前简化版本不接入数据库，因此无 datasource / mybatis 相关配置。
