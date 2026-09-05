@@ -7,20 +7,10 @@ const service = axios.create({
   timeout: 5000, // 请求超时时间
 })
 
-// 请求拦截器（可以在这里统一加 Token 等）
-service.interceptors.request.use(
-  (config) => {
-    return config
-  },
-  (error) => {
-    return Promise.reject(error)
-  },
-)
-
-// 响应拦截器（可以在这里统一处理后端返回的错误码）
+// 响应拦截器：直接返回后端的数据体
 service.interceptors.response.use(
   (response) => {
-    return response.data // 直接返回后端的数据
+    return response.data
   },
   (error) => {
     return Promise.reject(error)

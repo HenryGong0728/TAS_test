@@ -102,7 +102,6 @@ GET http://localhost:8080/api/health
 
 ```text
 POST http://localhost:8080/api/applications
-GET  http://localhost:8080/api/applications
 ```
 
 ## 前端启动
@@ -135,7 +134,6 @@ http://localhost:5173
 
 - 健康检查接口
 - 人员信息提交接口
-- 人员信息列表接口
 
 提交的数据仅保存在内存中，不会写入数据库。
 

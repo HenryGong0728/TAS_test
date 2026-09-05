@@ -20,7 +20,3 @@ export interface ApplicationResponse {
 export function submitApplication(data: ApplicationForm) {
   return request.post<unknown, ApplicationResponse>('/api/applications', data)
 }
-
-export function listApplications() {
-  return request.get<unknown, ApplicationRecord[]>('/api/applications')
-}

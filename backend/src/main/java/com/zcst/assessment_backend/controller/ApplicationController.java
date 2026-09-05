@@ -51,11 +51,6 @@ public class ApplicationController {
         );
     }
 
-    @GetMapping
-    public List<ApplicationRecord> list() {
-        return new ArrayList<>(records);
-    }
-
     private boolean isBlank(String value) {
         return value == null || value.trim().isEmpty();
     }
