@@ -1,0 +1,50 @@
+# ===== IDE =====
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+*.swp
+*.swo
+
+# ===== Java / Maven =====
+target/
+out/
+build/
+*.class
+*.jar
+*.war
+
+# ===== Node.js / Frontend =====
+node_modules/
+dist/
+dist-ssr/
+.npm
+*.tsbuildinfo
+.eslintcache
+
+# ===== 本地环境变量与敏感配置 =====
+# 忽略所有的 .env 文件及衍生配置
+.env
+.env.*
+# example 放行，作为参考文件
+!.env.example
+
+# 专属敏感配置
+.env.local
+.env.*.local
+application-secret.yml
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===== Logs =====
+*.log
+logs/
+
+# ===== Database =====
+*.db
+*.sqlite
+backups/

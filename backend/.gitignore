@@ -1,0 +1,22 @@
+HELP.md
+target/
+out/
+build/
+
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
+
+### VS Code ###
+.vscode/
+
+### Logs ###
+*.log
+logs/
+
+### 本地环境变量 ###
+.env
+.env.*
+!.env.example
